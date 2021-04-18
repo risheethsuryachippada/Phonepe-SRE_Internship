@@ -1,0 +1,114 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue0;\red24\green25\blue27;
+\red255\green255\blue255;\red24\green25\blue27;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\csgray\c0\c0;\cssrgb\c12570\c12963\c14124;
+\cssrgb\c100000\c100000\c100000\c0;\cssrgb\c12549\c12941\c14118;\cssrgb\c100000\c100000\c100000;\cssrgb\c0\c1\c1;\cssrgb\c100000\c100000\c99985\c0;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11960\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf0 COMMANDS
+\fs24 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \expnd0\expndtw0\kerning0
+1.find the permissions set for a file\
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf2 \cb3 ls \'96l [file_name]\
+\pard\pardeftab720\partightenfactor0
+
+\f0 \cf2 chmod u=rwx,g=rwx,o=rwx [file_name]\
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb1 2.list open ports\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 cat /etc/services  (or) cat /etc/services | less (or) netstat -tupln | grep LISTEN \
+\
+3.\cf0 \cb1 kill a process\
+kill\
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs36 \cf2 \cb3 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 4.\cf0 \cb1 Display processes started by a user\cf2 \cb3 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb5 ps -u \{USERNAME\}\
+\
+\cf6 \cb7 5.\cf0 \cb1 find the environment variables set on a machine\
+printenv or env\
+\
+6.find zombie processes on a machine\
+\pard\pardeftab720\partightenfactor0
+\cf2 top -b1 -n1 | grep Z
+\f1\fs36 \cb3 \
+\pard\pardeftab720\partightenfactor0
+
+\fs24 \cf2 \
+7.
+\f0 \cf0 \cb1 find the status of a service\
+\pard\pardeftab720\partightenfactor0
+\cf8 \cb5 systemctl status \{service-name\}\
+\
+\cf2 8.list processes listening on a specific port\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb9 netstat -ltnp | grep -w ':80\
+\
+9.\cf0 \cb1 list files opened by a process\
+lsof -p \{process-id\}\
+\
+10.Find the processes running on a linux machine\
+top/htop (or) ps aux\
+\
+11.find the users currently logged in\
+who -u\
+\
+12.find the uptime of the machine\
+uptime\
+\
+13.check ram usage\
+free (or) cat /proc/meminfo\
+\
+14.find the disk usage\
+df\
+\
+15.find the inode usage\
+df -i\
+\
+16.find the ulimit of a user\
+ulimit -Sa (or) ulimit -Ha         (soft & hard limit)\
+\
+17.find the ulimit of a process\
+cat /proc/$PID/limits\
+\
+18.find the file descriptors used by a process\
+lsof\
+\
+19.find the top 5 process by memory usage\
+ps -eo pid,ppid,cmd,%mem \'97sort=-%mem | head -6\
+\
+20.find the top 5 process by cpu usage\
+ps -eo pid,ppid,cmd,%cpu \'97sort=-%cpu | head -6\
+\
+21. find the top 5 process by network usage\
+nethogs\
+\
+22. find the top 5 process by disk iops usage\
+iotop\
+\
+23.find the network traffic and bandwidth usage of the machine\
+iptraf or iftop or jnettop or nethogs or \'91nethogs -d 1\'92 (refresh rate of 1 second)\
+https://www.slashroot.in/find-network-traffic-and-bandwidth-usage-process-linux\
+\
+\
+24. Given a file as input, find the processes using that file\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 fuser filename
+\f1  \
+\pard\pardeftab720\sl620\partightenfactor0
+
+\fs36 \cf2 \
+}

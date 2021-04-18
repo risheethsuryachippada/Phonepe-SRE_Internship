@@ -1,0 +1,215 @@
+Week-2 - SRE Tasks
+
+Logfile:
+https://raw.githubusercontent.com/aratik711/nginx-log-generator/main/access.log
+
+The format of the logs is as follows:
+ip, time, httpMethod, path, httpVersion, statusCode, responseTime, upstream_ip:port, bodyBytesSent, referrer, userAgent, ssl_protocol, content_type, host
+
+Write a bash script to part the logs and provide the stats mentioned below.
+Write a perl script to generate the above output in HTML where each Day is a collapsible button ( https://www.w3schools.com/bootstrap/bootstrap_collapse.asp ) and when clicked it shows the stats.
+Create a web UI using Python Flask where we upload an nginx log file and it creates a view like the above perl script.
+
+Shell EXECUTION:-
+wget link_name
+sh filename.sh //execute
+
+Task-1
+1.Summary for the day/week/month:
+highest requested host
+highest requested upstream_ip
+highest requested path
+
+#!/bin/bash
+if [ $# -eq 2 ]
+then
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=, -v date1=“$1” -v date2=“$2” \
+‘BEGIN{max1;max2=0}
+{
+	split($2,a,”:”);
+	if(date1<a[1]&&a[1]<=date2)
+	{
+		split($7,b,”:”);
+		split($4,x,” “);
+		split(c[2],d,”/“);
+		if(count1[$15]++>=max1)
+		{
+			max1=count1[$15];
+		}
+		if(count2[b[1]]++>=max2)
+		{
+			max2=count2[b[1]];
+		}
+		if(count3[d[2]][d[3]]++>=max3)
+		{
+			max3=count3[d[2]][d[3]];
+		}
+	}
+}
+END{
+		for(i in count1){
+			if(max1=count1[i])
+			{
+				print i;
+			}
+		}
+		for(i in count2){
+			if(max2==count2)
+			{
+				print i;
+			}
+		}
+		for(i in count3){
+			for(j in count3[i]){
+				if(count3[i][j]==max3){
+					printf “/%s/%s/\n”,i,j;
+				}
+			}
+		}
+}’ access.log;
+elif [ $# -eq 1 ]
+then
+	max_host=$(grep $1 access.log | awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=, ‘BEGIN{max=0} {if(count[$15]++>max) max=count[$15]} END{for (i in count) if(count[i]==max) print i}’);
+	max_ip=$(grep $1 access.log | awk -vFPAT=‘()|()’ -vOFS=, ‘BEGIN{max=0} {split($7,a,”:”); if(count[a[1]]++>=max) max=count[a[1]]} END{for(i in count) if(count[i]==max) print i}’);
+	max_path=$(grep $1 access.log | awk -vOFS=/ ‘BEGIN{max=0} {split($5,a,”/“); if(count[a[2]][a[3]]} END{for (i in count) for(j in count[i]) if(count[i][j]==max) print i,j}’);
+	echo “highest requested host = $max_host”;
+	echo “highest requested upstream ip = $max_ip”;
+	echo “highest requested path = /$max_path/“;
+else
+	echo “enter atleast one command line argument”
+fi
+
+
+Task-2
+Total requests per status code (Ex: count of requests returning 404/401/502/504/500/200)
+
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{count[$5]++} END {for ( i in count ) print i, count[i] }' access.log
+
+
+Task-3
+Top requests
+Top 5 requests by upstream_ip
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{count[$7]++} END {for ( i in count ) print i, count[i] }' access.log | sort -k2 -V -r| head -5
+
+top 5 requests by host
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{count[$15]++} END {for ( i in count ) print i, count[i] }' access.log | sort -k2 -r | head -5
+
+top 5 requests by bodyBytesSent
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{count[$8]++} END {for ( i in count ) print i, count[i] }' access.log | sort -V -r | head -5
+
+top 5 requests by path
+awk '{print $5}' /home/risheeth/access.log |sort|uniq -c|sort -rn|head -5
+
+top 5 requests with the highest response time
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{count[$5]++} END {for ( i in count ) print i, count[i] }' access.log | sort -V -r |head -5
+
+
+Task-4
+Find the time last 200/5xx/4xx was received for a particular host
+
+
+Task-5
+Get all request for the last 10 minutes
+
+
+Task-6
+Get all the requests taking more than 2/5/10 secs to respond
+2 secs
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{if($6>2 && $6<5} print $6,$1,$2,$8,$15}' /home/risheeth/access.log |sort -V 
+5 secs
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{if($6>5 && $6<10} print $6,$1,$2,$8,$15}' /home/risheeth/access.log |sort -V 
+10 secs
+awk -vFPAT=‘([^” “]*)|(“[^”]+”)’ -vOFS=" " '{if($6>10} print $6,$1,$2,$8,$15}' /home/risheeth/access.log |sort -V 
+
+Task-7
+Get all the requests in the specified timestamp (UI should have the capability to accept to and from timestamp.Ex: from: 06/Mar/2021:04:48 to 06/Mar/2021:04:58)
+
+PERL Execution:-
+apt-get install perl
+apt install apache2
+service apache2 restart
+cd /usr/lib/cgi-bin
+perl filename.pl   
+
+Change permission 755 or 777
+
+H1.tmpl
+<html>
+           <head><title>Nginx Stats Logs</title></head>
+           <body>
+           <p>
+           My Path is set to <TMPL_VAR NAME=PATH>
+           </body>
+</html>
+
+plhl1.pl
+#!/usr/bin/perl -w
+           use HTML::Template;
+
+           # open the html template
+           my $template = HTML::Template->new(filename => 'test.tmpl');
+
+           # fill in some parameters
+           $template->param(PATH => $ENV{PATH});
+	   my $out= qx(sh tempsh.sh)
+
+           # send the obligatory Content-Type and print the template output
+           print "Content-Type: text/html\n\n", $template->output;
+	  print $out
+
+
+AWK 
+Awk Pattern
+https://stackoverflow.com/questions/29642102/how-to-make-awk-ignore-the-field-delimiter-inside-double-quotes
+Count & Max
+https://www.unix.com/shell-programming-and-scripting/265317-printing-most-frequent-string-column.html
+Uniq
+https://www.howtoforge.com/linux-uniq-command/
+
+------------------------------------------------------------------------------
+Links for Perl CGI
+Inline
+https://techexpert.tips/apache/perl-cgi-apache/
+External
+https://metacpan.org/pod/CGI::HTML::Functions
+https://metacpan.org/pod/HTML::Template
+https://www.perlmonks.org/?node_id=65642
+Button
+https://docstore.mik.ua/orelly/perl3/tk/ch04_01.htm
+
+Templates
+* Place both the tmpl & pl files in cgi-bin folder
+Installation
+sudo apt-get install -y libhtml-template-perl
+Example code
+http://manpages.ubuntu.com/manpages/focal/man3/HTML::Template.3pm.html
+
+------------------------------------------------------------------------------
+Setup Flask
+Sudo apt-get install virtualenv
+mkdir newproj
+cd newproj
+virtualenv venv
+. venv/bin/activate
+pip install Flask
+python -m flask --version
+
+
+Flask file creation
+nano filename.py
+
+.py file:-
+-------
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+	return 'Hello World!'
+-------
+
+Execution:-
+export FLASK_APP=filename.py
+flask run --host=ip_addr
+ctrl+c -> stop the dev server
+ 

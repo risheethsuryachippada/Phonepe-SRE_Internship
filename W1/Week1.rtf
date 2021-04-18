@@ -1,0 +1,307 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 ArialMT;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;\red255\green255\blue255;\red0\green0\blue0;
+\red255\green255\blue255;\red27\green31\blue35;\red21\green24\blue26;\red27\green31\blue35;\red21\green23\blue26;
+\red255\green255\blue255;\red27\green31\blue35;}
+{\*\expandedcolortbl;;\cssrgb\c13348\c13348\c13331;\cssrgb\c100000\c100000\c100000\c0;\cssrgb\c0\c0\c0;
+\cssrgb\c100000\c100000\c99971\c0;\cssrgb\c14207\c16177\c18085;\cssrgb\c10634\c12208\c13750\c30196;\cssrgb\c14178\c16144\c18069;\cssrgb\c10588\c12157\c13725\c30196;
+\cssrgb\c100000\c100000\c99985\c0;\cssrgb\c14237\c16209\c18099;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww17600\viewh22400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf0 Week 1 - SRE Tasks\
+\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 Task-1  
+\fs32 \
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f1 \cf2 \cb3 \expnd0\expndtw0\kerning0
+Install VBOX with Ubuntu Focal ISO.
+\fs26 \cf2 \
+          \
+		
+\fs28 \cf2 Oracle VM box is a virtual machine which is uses to create multiple operating systems in the same machine using the concept of virtualization.\
+         1.Download VirtualBox for OS X hosts (For Mac)\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf2 		2.Download Focal Fossa - Live Sever 20.04.iso file\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf2 		3. Install the Ubuntu OS by providing 2CPU & 512MB RAM and load the iso file in the VBOX Manager.
+\fs26 \cf2 \
+\ls1\ilvl0
+\fs28 \cf2 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf0 \cb1 \kerning1\expnd0\expndtw0 Task-2.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0 Create the users & added them to a group.
+\fs28 \
+             1.Login as the root user first.\
+             2.To Add Users.\
+             			Command ->( sudo adduser username)\
+                              Users involved in the mail and their respective users have been created such as\
+                                        ->( sudo adduser risheeth)\
+                                        ->( sudo adduser neha)\
+ 					   -> ( sudo adduser kanaka)\
+                                        -> ( sudo adduser  chayank)\
+                                        ->( sudo adduser Mehul)\
+ 	       3.Display list of users created -> cat /etc/passwd                 \
+		4.To create the group \
+                		Command -> sudo groupadd group_name    //(group_name=intern)\
+               5. Add members to the group \
+                 		Command ->sudo usermod -a -G intern risheeth  //-a=append\
+		 6.List the group details \
+				Command ->grep intern /etc/group (or) getent group_name\
+
+\fs32 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0 Task-3\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0 Add 2 disks of 10GB to the VM and Create LVM of these 2 disks and create XFS file system and mount on /data directory
+\fs36 \
+            
+\fs28 \cf4 \cb5 \expnd0\expndtw0\kerning0
+a) Created 2 disks in the VM on the controller SATA of 10 gb\
+		 \cb3 b) Created physical volumes for each of the created disks - Command -> 'pvcreate /dev/sdb'   //1st created disk 
+\f2 \
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4                                                       
+\f0 'pvcreate /dev/sdc'  //2nd created disk\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4                                                                           \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 c) Grouped the physical volumes to create a volume group - Command used : 'vgcreate vol1 /dev/sdb /dev/sdc'  -> vol1 is the name of the volume_group\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 d) Created a logical volume above the volume group - Command used : 'lvcretae -n lv1 --size 19.99G vol1' -> 20GB of logical volume created over vol1\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+
+\f2 \cf4 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+
+\f0 \cf4 e) Making a xfs file system over the logical volume - Command used : 'mkfs.xfs /dev/vol1/lv1'\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt \clshdrawnil \clwWidth1000\clftsWidth3 \clminw1000 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx4320
+\clvertalt \clshdrawnil \clwWidth24963\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl200 \clpadr200 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf9 \cb1 \cell 
+\pard\intbl\itap1\pardeftab720\partightenfactor0
+\cf4 \cb10 f) Mounting to a different mount point /data - Command used : 'mount /dev/vol1/lv1 /data'
+\f2\fs24 \cb10 \cell \lastrow\row
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \cb1 \kerning1\expnd0\expndtw0 \
+
+\fs32 \
+        	
+\fs28 -> To display the physical volume created (pvs or pvdisplay)\
+		
+\fs32 -
+\fs28 > To display the volume group -> vgdisplay /dev/vol1 (name of the volume group)\
+		-> To display the logical volume created (lvs or lvdisplay)\
+  
+\fs32 		->
+\fs28 To display the mounted data file in the directory  -> df -hT /data\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0 Task-4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0 Add another 10GB disk to the VM and add it to existing LVM\
+\
+               
+\fs28 1.Adding another 10GB disk.\
+                 2. Create physical Volume by using pvcreate /dev/sdc\
+		   3. Extend the volume group using command -> vgextend vol1/dev/sdc  
+\fs32 \
+               
+\fs28 4. Extend the logical volume -> lvextend -l +2582 /dev/vol1/lv1\
+		 \
+\
+		SUBTASK  ->To mount logical Volume permanently or persist even after reboot.\
+ 			       	 -> sudo blkid /dev/vol1/lv1\
+ 				 ->  Copy the UUID of the mounted lv\
+				 -> Open & edit /etc/fstab file using -> vi /etc/fstab\
+				-> Enter in the the format (UUID=637476f4-3fc5-4775-b477-3527f65f9bf0 /data xfs defaults 0 0)\
+				-> sudo mount -a  (or) sudo mount /data\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0 \
+Task-5\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0  
+\fs28 R
+\fs32 un a HTTP server on the Vm and make sure that the server starts automatically when the system starts. 
+\fs28 \
+\
+		1.Change ->(Nat to Bridged adapter).\
+		2. Open Terminal and install apache server using -> sudo apt install apache2 \
+ 		3. Check the status of apache-> sudo systemctl status apache2 \
+               4.Stop Apache2 -> sudo systemctl stop apache2\
+               5. Restart Apache2 -> sudo systemctl restart apache2\
+\
+ 		6. To check the IP address of the system\
+              7. (ifconfig) ->shows the IP address.\
+		8. Check the VM IP in browser to see if server is connected.
+\fs36 \
+  
+\fs24 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0 Task-6
+\fs32 \
+Mount /var/log on a separate mount point\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs28 \cf0 \
+       a) Add the additional disk for 10GB.\
+       b) To add the disks the steps to be followed as\
+	c)
+\fs32  
+\fs28 Create a physical Volume -> pvcreate /dev/sdd\
+     	d) Create  volume groups and add the physical volumes created.\
+                               -> vgcreate vol1 /dev/sdb /dev/sdc
+\fs32 \
+
+\fs28 	e) Create Logical Volumes.\
+                                ->(lvcreate -n lv1 \'97size 19.9G vol1) \
+\
+	f) Mount = create a directory -> mkdir /mnt/temp_vol (mnt = directory and temp_vol 			= file inside the directory)  \
+  		\
+ 	g) Create ext4 file system
+\fs32 \
+               
+\fs28 -> mkfs -t ext4 /dev/vol1/lv1.\
+		  ->  mount -t ext4 /dev/vol1/lv1 /mnt/temp_vol/\
+        h) View the details or the contents of the file (ls-la /mnt/temp_vol/)\
+                 \
+	 i)
+\fs32  
+\fs28 Go To single user mode to  move the contents.
+\fs32 \
+               
+\fs28 -> init 1\
+                 ->( mv /var/log/* /mnt/temp_vol)\
+		   -> View the contents.\
+		   -> ls -l /var/log (Will show total=0)\
+		   ->  View the contents of the /mnt/temp_vol.\
+		   -> umount /mnt/temp_vol.\
+                 -> df -H (details of the disk)\
+ 		   ->Edit etc/fstab file.\
+   		   ->the fstab can be edited as -> echo /dev/vol1/lv1 /var/log ext4 defaults 0 0 >> /etc/fstab\
+                  ->  df -H it shows that it\'92s mounted.\
+\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0 Task-7
+\fs28      \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0 The users in the group interns should web able to login via a private key, and not a password.\
+
+\fs28 \
+	
+\fs32 	
+\fs28 SERVER SIDE. (Ubuntu_Server)
+\fs32 \
+                     
+\fs28  a) Create a user belonging to same as local/client machine\
+                         b) Copy the particular IP- Address\
+         
+\fs32 \
+        	
+\fs28 CLIENT SIDE. (Ubuntu_VM)\
+      			  a) Private key generation -> ssh -keygen\
+ 			  b) Send the Public key -> (file ~/ssh/id_rsa)\
+			  c) Copy the keys.-> ssh -copy -id risheeth@ipaddress_server\
+			  d)Check the ssh -> ssh risheeth@ipaddress_server // it connects to server VM user without password authentication
+\fs32 \
+\
+	   
+\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0 Task-8\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs32 \cf0 Automating everything using Packer.
+\fs28 \
+  	       a) Packer consists of ( Builders, Provisioners and PostProcesses)\
+		b) Make a json file with above 3 components and add boot commands inside the builder and include iso image file under iso-urls.\
+		c) Include a preseed.cfg file for auto installation of boot commands.\
+		d) Automate the other tasks using bash scripting files (.sh) included in the provisioners.\
+		e) The whole VM creation is automated along with the tasks
+\fs32 \
+\
+
+\fs28 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs36 \cf0  
+\fs28 \
+                \
+                       \
+   		\
+        \
+\
+               \
+         \
+\
+ 				
+\fs32 \
+         \
+\
+\
+\
+}

@@ -1,0 +1,42 @@
+---
+
+- hosts: master
+  become: yes
+  vars:
+    mysql_root_password: '948164'
+  tasks:
+  - name: get master status
+    mysql_replication:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      mode: getmaster
+      login_user: root 
+      login_password: "{{ mysql_root_password }}"
+ 
+- hosts: slave      
+  become: yes
+  vars:
+    mysql_root_password: '948164'    
+  tasks:
+  - name: stop slave 
+    mysql_replication:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      mode: stopslave
+      login_user: root 
+      login_password: "{{ mysql_root_password }}"      
+  - name: change master
+    mysql_replication:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      mode: changemaster
+      master_host: 172.10.0.2
+      master_user: replica
+      master_password: password
+      master_log_file: mysql-bin.000005
+      master_log_pos: 342
+      login_user: root 
+      login_password: "{{ mysql_root_password }}"    
+  - name: start slave
+    mysql_replication:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      mode: startslave
+      login_user: root
+      login_password: "{{ mysql_root_password }}"

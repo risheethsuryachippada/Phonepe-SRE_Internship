@@ -1,0 +1,18 @@
+
+
+FRR Setup
+http://docs.frrouting.org/projects/dev-guide/en/latest/building-frr-for-ubuntu2004.html
+
+BGP Routing inside vtysh:
+https://opensource.com/article/20/5/vty-shell
+https://docs.cumulusnetworks.com/cumulus-linux-41/Layer-3/Border-Gateway-Protocol-BGP/Basic-BGP-Configuration/
+
+Task-5
+Librenms
+Make a GUI for the 4th VM to run librenms
+https://phoenixnap.com/kb/how-to-install-a-gui-on-ubuntu
+
+
+
+
+

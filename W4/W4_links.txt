@@ -1,0 +1,235 @@
+TASK-1
+
+Setup MariaDB
+S1:
+sudo apt update && sudo apt upgrade
+sudo apt -y install software-properties-common
+
+S2: Import MariaDB gpg key:-
+sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
+
+S3: Add MariaDB APT repository
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://archive.mariadb.org/mariadb-10.5.6/repo/ubuntu/ focal main'
+
+S4: Install MariaDB Server
+sudo apt update
+sudo apt install mariadb-server mariadb-client
+
+S5: Secure MariaDB Server
+sudo mysql_secure_installation
+
+systemctl status mysql //status check
+SELECT VERSION(); //check version of MariaDB
+
+https://computingforgeeks.com/how-to-install-mariadb-on-ubuntu-focal-fossa/
+follow this link and replace step 3 with the below command
+sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://archive.mariadb.org/mariadb-10.5.6/repo/ubuntu/ focal main'
+
+Login using : mysql -u root -p
+Create users
+Create DATABASE db_name;
+To restore dump file: mysql -u root -p db_name < dumpfile.sql
+Use dbname;
+Select * from tablename. LIMIT 5;
+
+-------------------------------------------------
+TASK-2
+
+MASTER_SLAVE Process
+
+firewall-cmd --permanent --add-port=3306/tcp; firewall-cmd --reload
+
+Master1
+S1: Edit conf file and enter the below statements under [mysqld]:
+nano /etc/mysql/mariadb.conf.d/50-server.cnf
+bind-address            = 172.10.0.1
+
+add the following lines at the end of the file:
+server-id = 1
+log_bin = /var/log/mysql/mysql-bin.log
+log_bin_index =/var/log/mysql/mysql-bin.log.index
+relay_log = /var/log/mysql/mysql-relay-bin
+relay_log_index = /var/log/mysql/mysql-relay-bin.index
+
+systemctl restart mariadb
+mysql -u root -p
+
+CREATE USER 'replication'@'%' identified by 'your-password';
+GRANT REPLICATION SLAVE ON *.* TO 'replication'@'%';
+FLUSH PRIVILEGES;
+show master status;
+
+Copy or make note of the Master status - file name and Position
+
+Exit;
+ 
+SLAVE1
+nano /etc/mysql/mariadb.conf.d/50-server.cnf
+bind-address            = 172.10.0.2
+
+add the following lines at the end of the file:
+server-id = 2
+log_bin = /var/log/mysql/mysql-bin.log
+log_bin_index =/var/log/mysql/mysql-bin.log.index
+relay_log = /var/log/mysql/mysql-relay-bin
+relay_log_index = /var/log/mysql/mysql-relay-bin.index
+
+systemctl restart mariadb
+mysql -u root -p
+
+Stop slave;
+CHANGE MASTER TO MASTER_HOST = '172.10.0.1', MASTER_USER = 'repl', MASTER_PASSWORD = 'your-password', MASTER_LOG_FILE = 'mysql-bin.000001', MASTER_LOG_POS = 313;
+start slave;
+SHOW SLAVE STATUS \G
+Exit;
+
+Links:-
+https://www.youtube.com/watch?v=yfYq4_a_juU&t=4s
+https://www.atlantic.net/vps-hosting/how-to-setup-mariadb-master-slave-replication-on-ubuntu-18-04/?__cf_chl_jschl_tk__=fb9a1bbae4ddde607399c8e3ee4725f41b66a549-1616585150-0-AaY_zC5GTqNn1kAypsQYIaNZirCjsV-CJwKPaQicMkUBSAu_qeeW_BNiieyB60GequD0oCIQLj7UXlVyEmbgx9mavuM2lP8jRMB2Z8JfKhDq6UjeIz41BFrXwpBfEzZu9aKKUBAOnVGr9mCI6xaaR32aIt7MMx8IGl0Rx_SiuJMY4pqSihu0E34XJEnYuApRooOikZlnGQMM0YvEh_v2zR1yMxfjmr9u_WpIB_ujENfGIMAglHRW5KNuDi3beD9su0vQTpcUd5x39ql67Ck1SHMwIyJtWlBxYHS-YOrlB8prS3JmeQQXy5rS97lB-aBzRZczcVwaiMfzOtO0q0FPogiJbuex5J6jrvc4XVUCE3NTpdAlET8oqrqclXoJVbLFm5TQVexsnjMbMDfeOWVpEM6igIy85UtQF20gm7aEYhXM
+-------------------------------------------------
+TASK-3
+
+MASTER_MASTER Process
+
+In the above progress, just create the repl user in the SLAVE1 and grant slave replication permission
+
+SLAVE1
+mysql -u root -p
+
+CREATE USER 'replication'@'%' identified by 'your-password';
+GRANT REPLICATION SLAVE ON *.* TO 'replication'@'%';
+FLUSH PRIVILEGES;
+show master status;
+
+Copy or make note of the Master status - file name and Position
+
+Exit;
+
+This time change Master to master settings in Master1, 
+so the Master1 ->(slave) SLAVE1 & SLAVE1 ->(slave) MASTER1. => MASTER1 <=> MASTER2
+
+MASTER1
+mysql -u root -p
+
+Stop slave;
+CHANGE MASTER TO MASTER_HOST = '172.10.0.2', MASTER_USER = 'repl', MASTER_PASSWORD = 'your-password', MASTER_LOG_FILE = 'mysql-bin.000002', MASTER_LOG_POS = 793;
+start slave;
+SHOW SLAVE STATUS \G
+Exit;
+
+Links:-
+http://woshub.com/configure-mariadb-replication/#h2_2
+-------------------------------------------------
+TASK-4
+
+Galera
+Convert this setup into two nodes Galera clusters and then add another node to this cluster.
+Maintain everything in a single network with /24 mask and connect to it and check ping with bgp so Galera can access the router ip and can connect to Galera cluster as required.
+
+sudo apt-get install rsync
+
+Configuring the First Node
+nano /etc/mysql/conf.d/galera.cnf (or) /etc/mysql/mariadb.conf.d/60-galera.cnf
+
+galera.cnf file:-
++++++++++++++++++++++++++++++++++
+
+[mysqld]
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+
+# Galera Provider Configuration
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+
+# Galera Cluster Configuration
+wsrep_cluster_name="test_cluster"
+wsrep_cluster_address="gcomm://first_ip,second_ip,third_ip"
+
+# Galera Synchronization Configuration
+wsrep_sst_method=rsync
+
+# Galera Node Configuration
+wsrep_node_address="this_node_ip"
+wsrep_node_name="this_node_name"
+
++++++++++++++++++++++++++++++++++
+
+Configuring the Remaining Nodes
+ Same config but change the ip and name in last 2 lines.
+# Galera Node Configuration
+wsrep_node_address="this_node_ip"
+wsrep_node_name="this_node_name"
+
+Opening the Firewall on Every Server
+sudo ufw allow 3306,4567,4568,4444/tcp
+sudo ufw allow 4567/udp
+
+Starting the Cluster
+Stop MariaDB on all Three Servers
+sudo systemctl stop mysql
+sudo systemctl status mysql
+
+Bring up First Node
+sudo galera_new_cluster
+mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+
+Bring up Second Node
+sudo systemctl start mysql
+
+Check size in first node to see if the size increased to 2 using the command
+
+Bring up Third Node
+sudo systemctl start mysql
+
+All nodes get in sync.
+
+Links:-
+https://www.digitalocean.com/community/tutorials/how-to-configure-a-galera-cluster-with-mariadb-10-1-on-ubuntu-16-04-servers
+
+Additions commands to check:-
+Use mysql;
+Show tables;
+Select * from wrep_cluster_members;
+Checksum table table_name;
+Show like status '%stat%';
+
+-------------------------------------------------
+TASK-5.1
+
+Physical Backup and setup Docker on it and compare the checksum of the table.
+mariabackup --backup  --galera-info \
+   --target-dir=$MYSQL_BACKUP_DIR \
+   --user=$DB_USER \
+   --password=$DB_USER_PASS
+
+Links:-
+https://mariadb.com/kb/en/manual-sst-of-galera-cluster-node-with-mariabackup/  (MANUAL-VERSION)
+
+Additional:-
+https://mariadb.com/kb/en/introduction-to-state-snapshot-transfers-ssts/
+-------------------------------------------------
+TASK-5.2
+
+Upgrade the Galera cluster from 10.5.6 to 10.5.9. (Minor Release)
+
+
+Links:-
+https://mariadb.com/kb/en/upgrading-between-minor-versions-with-galera-cluster/    (minor)
+https://mariadb.com/kb/en/upgrading-from-mariadb-103-to-mariadb-104-with-galera-cluster/   (major)
+-------------------------------------------------
+TASK-6
+
+Queries for the stats
+
+summary for the day/week/month:
+highest requested host
+
+highest requested upstream_ip
+
+highest requested path (upto 2 subdirectories ex: /check/balance)
+
+
+

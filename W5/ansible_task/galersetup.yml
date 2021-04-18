@@ -1,0 +1,28 @@
+---
+
+- hosts: group
+  become: yes
+  tasks:
+  - name: stop service mariadb, if running
+    service:
+      name: mariadb
+      state: stopped
+- hosts: router
+  become: yes
+  tasks:
+  - name: Execute galera new cluster
+    shell: sudo galera_new_cluster  
+- hosts: VM1
+  become: yes
+  tasks:
+  - name: start service mariadb, if not running
+    service:
+      name: mariadb
+      state: started
+- hosts: VM2
+  become: yes
+  tasks:
+  - name: started service mariadb, if not running
+    service:
+      name: mariadb
+      state: started

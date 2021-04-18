@@ -1,0 +1,4 @@
+[nodes]
+172.10.0.1   server_id=1    host_add=172.10.0.1
+172.10.0.2   server_id=2    host_add=172.10.0.2
+172.10.0.6   server_id=3    host_add=172.10.0.6

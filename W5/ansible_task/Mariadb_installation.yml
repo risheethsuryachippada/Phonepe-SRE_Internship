@@ -1,0 +1,29 @@
+---
+
+- hosts: group
+  become: yes
+  tasks:
+  - name: update and upgrade
+    apt:
+      name: "*"
+      state: latest
+      upgrade: dist
+    apt:
+      name: software-properties-common
+      state: latest
+  - name: fetch keys
+    apt_key:
+      url: https://mariadb.org/mariadb_release_signing_key.asc
+      state: present
+  - name: Add repository
+    shell: sudo add-apt-repository 'deb [arch=amd64] http://mariadb.mirror.globo.tech/repo/10.5/ubuntu focal main'
+  - name: Update
+    apt:
+      upgrade: dist 
+  - name: install mariadb for Ubuntu servers
+    apt:
+      name:
+        - mariadb-server
+        - mariadb-client
+      state: latest  
+  

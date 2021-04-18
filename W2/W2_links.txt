@@ -1,0 +1,55 @@
+AWK 
+Awk Pattern
+https://stackoverflow.com/questions/29642102/how-to-make-awk-ignore-the-field-delimiter-inside-double-quotes
+Count & Max
+https://www.unix.com/shell-programming-and-scripting/265317-printing-most-frequent-string-column.html
+Uniq
+https://www.howtoforge.com/linux-uniq-command/
+
+------------------------------------------------------------------------------
+Links for Perl CGI
+Inline
+https://techexpert.tips/apache/perl-cgi-apache/
+External
+https://metacpan.org/pod/CGI::HTML::Functions
+https://metacpan.org/pod/HTML::Template
+https://www.perlmonks.org/?node_id=65642
+Button
+https://docstore.mik.ua/orelly/perl3/tk/ch04_01.htm
+
+Templates
+* Place both the tmpl & pl files in cgi-bin folder
+Installation
+sudo apt-get install -y libhtml-template-perl
+Example code
+http://manpages.ubuntu.com/manpages/focal/man3/HTML::Template.3pm.html
+
+------------------------------------------------------------------------------
+Setup Flask
+Sudo apt-get install virtualenv
+mkdir newproj
+cd newproj
+virtualenv venv
+. venv/bin/activate
+pip install Flask
+python -m flask --version
+
+
+Flask file creation
+nano filename.py
+
+.py file:-
+-------
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+	return 'Hello World!'
+-------
+
+Execution:-
+export FLASK_APP=filename.py
+flask run --host=ip_addr
+ctrl+c -> stop the dev server
+ 
