@@ -13,7 +13,7 @@ node name | IP address
 
 * Install and configure 3 node Aerospike cluster version 4.8.0.6.
 
-    * File : [aero_ins_clus.yml]
+    * File : [aero_ins_clusconf.yml]
 
     * Has 2 roles, one to install aerospike and another to check the cluster status and give result in debug console.
 

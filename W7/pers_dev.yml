@@ -1,9 +1,0 @@
----
-- name: Data Persistence on disk
-  remote_user: risheeth
-  hosts: nodes[0]
-  become: true
-  become_method: sudo
-  serial: 1
-  roles:
-    - orders_data_pers

@@ -1,0 +1,46 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Defau>
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is ev>
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evalu>
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seco>
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['192.168.1.6:9090']
+
+
+  - job_name:       'node'
+
+    # Override the global default and scrape targets from this job every 5 seco>
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['192.168.1.32:9100']
+        labels:
+          group: 'production'
+
+  - job_name: 'aerospike'
+
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.32:9145']
+

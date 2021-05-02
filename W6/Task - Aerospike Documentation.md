@@ -4,9 +4,9 @@
     
 node name | IP address
 :--: | :--:
-`aero-node-1` | 192.168.100.88
-`aero-node-2` | 192.168.100.85
-`aero-node-3` | 192.168.100.86
+`aero-node-1` | 172.10.0.1
+`aero-node-2` | 172.10.0.2
+`aero-node-3` | 172.10.0.6
 
 1. Install and configure 1 node Aerospike cluster version 4.8.0.6
 
@@ -53,8 +53,8 @@ node name | IP address
         > manage acl create role superuser priv read-write-udf  #create a new role 'superuser' with read, write privileges
         > manage acl grant role superuser priv sys-admin
         > list all roles        #check the creation of role
-        > manage acl allowlist role superuser allow 192.168.100.88
-        > manage acl create user kiran password kiran roles superuser       #create a new user with 'superuser' role
+        > manage acl allowlist role superuser allow 172.10.0.1
+        > manage acl create user risheeth password rishi roles superuser       #create a new user with 'superuser' role
         > show users            #verify user creation
         ```
 
@@ -65,7 +65,7 @@ node name | IP address
         ```conf
         service {
             ...
-            user kiran
+            user risheeth
             ...
         }
         ```
@@ -77,11 +77,11 @@ node name | IP address
         $ sudo touch /opt/aerospike/data/test.dat   #for 'test' namespace (optional, can remove the namespace itself)
         ```
 
-    * Now we have made these required files and directories, but we need to have certain permission to access them using the user that we explained above, in this case user `kiran` who is a sudoer in my server machine os,
+    * Now we have made these required files and directories, but we need to have certain permission to access them using the user that we explained above, in this case user `risheeth` who is a sudoer in my server machine os,
 
         ```bash
-        $ sudo chown kiran /var/log/aerospike/
-        $ sudo chown kiran /opt/aerospike/data/test.dat
+        $ sudo chown risheeth /var/log/aerospike/
+        $ sudo chown risheeth /opt/aerospike/data/test.dat
         ```
 
     * We now need to create symlink for accessing aql on each node, it initially uses the latest available `libreadline` edition which is `8.0`, but `aql` runs on `libreadline.so.7` version, so it results in an error for accessing `aql`. We have to make a symlink to just make `8.0` version available in the name of `7`,
@@ -123,7 +123,7 @@ node name | IP address
 
     ```bash
     $ sudo touch /var/log/aerospike/aerospike.log
-    $ sudo chown kiran /var/log/aerospike/aerospike.log
+    $ sudo chown risheeth /var/log/aerospike/aerospike.log
     ```
 
 4. Add 2 more nodes to the cluster without restarting AS service on first one
@@ -138,10 +138,10 @@ node name | IP address
                 ...
                 mode mesh
                 port 3002
-                address 192.168.100.88                          #current node address eg for node 1
-                mesh-seed-address-port 192.168.100.88 3002       #node1 address
-                mesh-seed-address-port 192.168.100.85 3002       #node2 address
-                mesh-seed-address-port 192.168.100.86 3002       #node3 address
+                address 172.10.0.1                          #current node address eg for node 1
+                mesh-seed-address-port 172.10.0.1 3002       #node1 address
+                mesh-seed-address-port 172.10.0.2 3002       #node2 address
+                mesh-seed-address-port 172.10.0.6 3002       #node3 address
                 ...
             }
         }
@@ -173,7 +173,7 @@ node name | IP address
 
         ```bash
         $ sudo touch /opt/aerospike/data/orders.dat
-        $ sudo chown kiran /opt/aerospike/data/orders.dat
+        $ sudo chown risheeth /opt/aerospike/data/orders.dat
         ```
     
         restart for applying changes
@@ -205,7 +205,7 @@ node name | IP address
         
         * Now verify the installation by importing `aerospike` into a python program and you shouldn't get any errors for that.
 
-        * The program to read and write some data is [access_client.py](https://github.com/alwaysiamkk/Internship/blob/main/Week%206/client/access_client.py), which has `key` data which has (`namespace`,`set`,`Primary Key(PK)`). If this program returns any exception, check for the connection node address of one node of a cluster in `hosts` object, and if a write exception, then create a new set in that namespace using `aql` client console.
+        * The program to read and write some data is [access_client.py](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W6/client), which has `key` data which has (`namespace`,`set`,`Primary Key(PK)`). If this program returns any exception, check for the connection node address of one node of a cluster in `hosts` object, and if a write exception, then create a new set in that namespace using `aql` client console.
 
             ```aql
             > insert into orders.products(PK,product,cost) values(1,'mouse',200)
@@ -227,7 +227,7 @@ node name | IP address
     * Using same technique used above
         
         ```aql
-        > insert into orders.buyers(PK,name,expenditure) values(1,'kiran',6700)
+        > insert into orders.buyers(PK,name,expenditure) values(1,'rishi',6700)
         > delete from orders.buyers where PK=1
         > insert into orders.products(PK,product,cost) values(1,'mouse',200)
         > delete from orders.products where PK=1
@@ -237,7 +237,7 @@ node name | IP address
 
 8. Each set should have 3000 records.
 
-    * Client Python program [add_3k_rec.py](https://github.com/alwaysiamkk/Internship/blob/main/Week%206/client/add_3k_rec.py), I just run a for loop of range 30001 with same records which adds 3000 records with iterative variable as my `PK`.
+    * Client Python program [3k_rec-add.py](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W6/client), I just run a for loop of range 30001 with same records which adds 3000 records with iterative variable as my `PK`.
 
 9. The records should have an expiry of 24h
 
@@ -287,7 +287,7 @@ node name | IP address
 
 11. Bring back the node,start inserting 1000 records in the AS cluster while the data migration is going on.
 
-    * Created a separate program [add_1k_rec.py](https://github.com/alwaysiamkk/Internship/blob/main/Week%206/client/add_1k_rec.py), to add 1000 records as did for 3000 records before.
+    * Created a separate program [1k_rec-add.py](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W6/client), to add 1000 records as did for 3000 records before.
 
     * Start the `aerospike` on `aero-node-3`, this starts the migration and run the program above in the `python2.7` shell, then check the migration status by running
     x
