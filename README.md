@@ -1,6 +1,8 @@
 # Phonepe
 ## SRE Internship
 
+![alt text](https://securecdn.pymnts.com/wp-content/uploads/2020/01/Score-Card-Company-Image-25.png “Company”)
+
 >### Weekly Tasks !!!
 
 
