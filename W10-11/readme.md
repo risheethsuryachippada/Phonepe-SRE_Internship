@@ -14,6 +14,7 @@ Topology description:
 
     * Create L2 connectivity between host 1, host 2, host 3
     * Test case: 
+    
 Node-name | IP address
 :--: | :--:
 `Host 1 ` | 10.3.1.1/24
