@@ -6,11 +6,12 @@
 >### Weekly Tasks !!!
 
 
-* VM, Memory Volumes & Packer -> [Week 1](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W1)
-* Nginx Logs App-Bash,Perl,Flask -> [Week 2](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W2)
-* Networking & BGP -> [Week 3](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W3)
-* Mariadb & Galera Cluster -> [Week 4](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W4)
-* Ansible of Galera -> [Week 5](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W5)
-* Aerospike DataStore -> [Week 6](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W6)
-* Ansible of Aerospike ->[Week 7](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W7)
-* Monitoring of OS & DS -> [Week 8 & 9](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W8&9)
+* VM, Memory Volumes & Packer -> [Week 1](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W01)
+* Nginx Logs App-Bash,Perl,Flask -> [Week 2](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W02)
+* Networking & BGP -> [Week 3](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W03)
+* Mariadb & Galera Cluster -> [Week 4](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W04)
+* Ansible of Galera -> [Week 5](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W05)
+* Aerospike DataStore -> [Week 6](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W06)
+* Ansible of Aerospike ->[Week 7](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W07)
+* Monitoring of OS & DS -> [Week 8 & 9](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W08-09)
+* Advanced Networking -VxLAN,GRE Tunnel & VRF -> [Week 10 & 11](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W10-11)
