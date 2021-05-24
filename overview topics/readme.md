@@ -1,7 +1,7 @@
 ># Overview Of Important Topics 
 
 ```
-Topic : Related Study Toppics of the Tasks & Misc
+Topic : Related Study Topics of the Tasks & Misc
 ```
 1. Replication Factor
 2. Paxox Algorithm
