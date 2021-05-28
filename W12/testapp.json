@@ -1,0 +1,11 @@
+{
+    "id": "basic-5",
+    "cmd": "while [ true ] ; do echo 'Hello R11' ; sleep 5 ; done",
+    "cpus": 0.1,
+    "mem": 10.0,
+    "instances": 1,
+    "labels":{
+        "traefik.enable": "true",
+        "traefik.http.routers.router0.rule": "Host(`192.168.1.53:80`)"
+    }
+}
