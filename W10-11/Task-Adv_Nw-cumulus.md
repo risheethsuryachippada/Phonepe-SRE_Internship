@@ -1,4 +1,4 @@
-### Adv Networking Tasks
+>## Adv Networking Tasks
 
 Task 1-VxLAN / EVPN
 
@@ -88,7 +88,7 @@ Task 1-VxLAN / EVPN
     
     * BGP is set up and can be verified with `ping` and `traceroute`
     
->VxLAN overlay on e-BGP:
+># VxLAN overlay on e-BGP:
 
 
 * In topology, we see `R4` is `Spine` and `R1`, `R2`, & `R3` are `leaves` in a Spine-leaf architecture.
