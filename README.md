@@ -15,3 +15,4 @@
 * Ansible of Aerospike ->[Week 7](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W07)
 * Monitoring of OS & DS -> [Week 8 & 9](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W08-09)
 * Advanced Networking -VxLAN,GRE Tunnel & VRF -> [Week 10 & 11](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W10-11)
+* Mesos,Marathon,Zookeper,Traefik,Nginx -> [Week 12](https://github.com/risheethsuryachippada/Phonepe-SRE_Internship/tree/master/W12)
