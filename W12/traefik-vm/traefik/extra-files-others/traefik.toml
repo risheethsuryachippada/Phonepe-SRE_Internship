@@ -1,0 +1,20 @@
+port = "0.0.0.0:80"
+graceTimeOut = 10
+[serversTransport]
+maxIdleConnsPerHost = 100000
+[api]
+  dashboard = true
+  insecure = true
+[log]
+  level = "INFO"
+  filePath = "/var/log/traefik/traefik.log"
+[accesslog]
+  filePath = "/var/log/traefik/access.log"
+  bufferingSize = 100
+[ping]
+  entryPoint = "http"
+[providers.marathon]
+exposedByDefault = false
+endpoint="http://172.10.1.2:8080"
+respectReadinessChecks = true
+trace=true

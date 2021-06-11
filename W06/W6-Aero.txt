@@ -41,7 +41,7 @@ sudo service aerospike restart
 ------------------------------------------------
 
 TASK-2
-Set username and password
+Set username and password AS user
 
 Network Security need to be enabled. It is available only in Enterprise edition.
 

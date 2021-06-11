@@ -1,0 +1,31 @@
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+    [entryPoints.web.http.redirections.entryPoint]
+      to = "websecure"
+      scheme = "https"
+  [entryPoints.websecure]
+    address = ":443"
+
+[api]
+  dashboard = true
+[certificatesResolvers.lets-encrypt.acme]
+  email = "risheeth.intern@phonepe.com"
+  storage = "acme.json"
+  [certificatesResolvers.lets-encrypt.acme.tlsChallenge]
+
+[providers.docker]
+  watch = true
+  network = "web"
+
+[providers.file]
+  filename = "traefik_secure.toml"
+
+[pilot]
+    token = "1bba1b04-f567-4531-a025-3358404fb3c5"
+
+[providers.marathon]
+  endpoint = "http://192.168.1.34:8080"
+  exposedByDefault = true 
+  watch = true
+  respectReadinessChecks = true

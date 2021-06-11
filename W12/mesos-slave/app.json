@@ -1,0 +1,29 @@
+{
+  "id": "helloworld",
+  "instances": 1,
+  "cpus": 0.5,
+  "mem": 256,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "robsteneha/python-docker",
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "hostPort": 0,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "labels": {
+    "traefik.http.routers.helloworld.service": "helloworld",
+    "traefik.http.routers.helloworld.rule": "Host(`helloworld.traefik.phonepe.lc1`)",
+    "traefik.backend": "helloworld",
+    "traefik.host": "helloworld",
+    "traefik.enable": "true",
+    "traefik.portIndex": "0",
+    "traefik.frontend.rule=Host": "helloworld.traefik.phonepe.lc1"
+  }
+}

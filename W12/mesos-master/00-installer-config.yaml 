@@ -1,0 +1,16 @@
+# This is the network config written by 'subiquity'
+network:
+  ethernets:
+    lo:
+      addresses: [10.1.1.2/32]
+    enp0s3:
+      dhcp4: true
+      addresses: [192.168.0.34/24]
+      gateway4: 192.168.0.1
+      optional: true
+      nameservers:
+        addresses: [8.8.8.8]
+    enp0s8:
+      dhcp4: no
+      addresses: [172.10.1.2/30]
+  version: 2
