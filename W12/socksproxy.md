@@ -31,7 +31,7 @@
 6. From  mac host ssh into the master vm where tcp forwarding is allowed
 
     ```
-    ssh -D 8888 neha@192.168.0.112
+    ssh -D 8888 risheeth@192.168.0.112
     ```
 
 7. Install firefox

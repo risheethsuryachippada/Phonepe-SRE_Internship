@@ -55,7 +55,7 @@ python-docker
 
 ```
 mkdir ~/python-docker
-cd /home/neha/python-docker
+cd /home/risheeth/python-docker
 pip3 install Flask
 pip3 freeze > requirements.txt
 ```
@@ -219,7 +219,7 @@ push image to docker hub
 https://docs.docker.com/docker-hub/repos/
 
 ```
-docker push robsteneha/python-docker:latest
+docker push risheethsuryachippada/python-docker:latest
 ```
   
 

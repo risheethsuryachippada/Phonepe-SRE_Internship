@@ -17,5 +17,5 @@
   - name: create databse Nginx and dump file
     mysql_db: name=Nginx state=present login_user=root login_password="{{ mysql_root_password }}"
   - name: insert sql file into database
-    mysql_db: name=Nginx state=import target=/home/chayank_intern/ngnix_access_log.sql login_user=root login_password="{{ mysql_root_password }}"
+    mysql_db: name=Nginx state=import target=/home/risheeth/ngnix_access_log.sql login_user=root login_password="{{ mysql_root_password }}"
 
