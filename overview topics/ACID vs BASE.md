@@ -4,7 +4,7 @@
 
 ## ACID Consistency Model
 
-![ACID Explained: Atomic, Consistent, Isolated &amp; Durable – BMC Software |  Blogs](https://s7280.pcdn.co/wp-content/uploads/2020/04/acid-data.png)
+![ACID acronym standing for Atomic, Consistent, Isolated, Durable](https://phoenixnap.com/kb/wp-content/uploads/2021/04/acid-acronym.png)
 
 **_Atomic_**
 -   All operations in a transaction succeed or every operation is rolled back.
