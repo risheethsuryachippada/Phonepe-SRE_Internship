@@ -1,0 +1,12 @@
+- name: Check if hostname is getting resolved
+  command: hostname -f
+  register: fqdn
+  ignore_errors: yes
+
+- name: block for restarting if pdns is not working
+  block: 
+    - name: restart pdns-recursor
+      service:
+        name: pdns-recursor
+        state: restarted
+  when: fqdn is failed

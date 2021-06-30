@@ -1,0 +1,10 @@
+---
+# vars file for pdns
+pdns_apt_key: https://repo.powerdns.com/FD380FBB-pub.asc
+pdnsuser: "pdns" 
+pdnsdir: "powerdns"
+#dns_node_list: "10.3.1.10;10.3.1.11"
+wirguard: false
+dns_node_list: "{{ dns_hosts | join(';') }}"
+#dns_node_list: "{{ groups.tag_service_dns | join(';') }}"
+#dns_node_list: "{{ groups.tag_service_dns | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | join(';') }}"

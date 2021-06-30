@@ -1,0 +1,12 @@
+---
+- name: Install common packages
+  apt:
+    name: ['libyaml-syck-perl', 'libwww-perl', 'libjson-perl',
+           'ucspi-tcp', 'python3-bernhard',
+           'wget', 'strace', 'lsof', 'telnet',
+           'tmux', 'curl', 'xfsprogs', 'traceroute',
+           'vim', 'htop', 'since', 'lvm2', 'dnsutils',
+           'screen', 'iftop', 'nload', 'bmon', 'socat',
+           'smartmontools', 'daemontools', 'daemontools-run',
+           'pp-ops-servicebuilder', 'pp-ops-riemann-client-perl']
+    state: present

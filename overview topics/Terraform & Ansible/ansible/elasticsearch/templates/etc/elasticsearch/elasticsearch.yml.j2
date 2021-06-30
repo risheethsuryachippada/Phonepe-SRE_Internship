@@ -1,0 +1,47 @@
+# {{ ansible_managed }}
+
+cluster.name: {{ cluster_name }}
+node.name: "{{ ansible_host }}"
+node.master: true
+node.data: true
+path.data: {{ elasticsearch_source_directory }}
+path.logs: /var/log/elasticsearch
+bootstrap.memory_lock: true
+network.bind_host: 0.0.0.0
+network.publish_host: {{ ansible_host }}
+
+
+# for local vms which uses non loopback, uncomment below lines
+# http.host: 0.0.0.0
+# http.port: {{ elasticsearch_http_port }}
+# transport.host: localhost
+# transport.tcp.port: {{ elasticsearch_transport_port }}
+
+discovery.zen.minimum_master_nodes: {{ discovery_zen_minimum_master_nodes }}
+# cluster.initial_master_nodes:       [{{ play_hosts | list | join(',') }}]
+# discovery.zen.ping.unicast.hosts:   [{{ play_hosts | list | join(',') }}]
+
+# cluster.initial_master_nodes:       [{{ play_hosts | map('extract', hostvars, 'ansible_fqdn') |  list | join(',') }}]
+# discovery.zen.ping.unicast.hosts:   [{{ play_hosts | map('extract', hostvars, 'ansible_fqdn') |  list | join(',') }}]
+
+cluster.initial_master_nodes:       [{{ play_hosts | map('extract', hostvars, 'ansible_host') |  list | join(',') }}]
+discovery.zen.ping.unicast.hosts:   [{{ play_hosts | map('extract', hostvars, 'ansible_host') |  list | join(',') }}]
+
+gateway.recover_after_master_nodes: 2
+gateway.recover_after_data_nodes: 3
+gateway.recover_after_time: 2m
+
+indices.queries.cache.size: {{ indices_queries_cache_size }}%
+indices.fielddata.cache.size: {{ indices_fielddata_cache_size }}%
+indices.breaker.total.limit: {{ indices_breaker_total_limit }}%
+indices.breaker.request.limit: {{ indices_breaker_request_limit }}%
+
+action.destructive_requires_name: true
+
+cluster.routing.allocation.disk.threshold_enabled: true
+cluster.routing.allocation.disk.watermark.low: 85%
+cluster.routing.allocation.disk.watermark.high: 90%
+cluster.routing.allocation.same_shard.host: true
+
+#Enabling the Elasticsearch security features for basic authentication
+#xpack.security.enabled: true

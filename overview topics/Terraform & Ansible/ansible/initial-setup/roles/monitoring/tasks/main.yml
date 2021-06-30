@@ -1,0 +1,79 @@
+---
+# tasks file for monitoring
+
+# - name: create riemann plugins and daemon dir
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     mode: "0750"
+#   with_items:
+#     - /usr/lib/riemann/plugins
+#     - /usr/lib/riemann/daemon
+#     - /var/local/scripts
+
+# - name: run daemontools
+#   command: "{{ item }}"
+#   with_items:
+#     - semodule -X 100 -r daemontools
+#     - systemctl enable daemontools
+#   when: ansible_facts['distribution'] == "CentOS"
+
+# #  pp-ops-servicebuilder and pp-ops-riemann-client-perl are pre-installed via pkgs role
+
+# - name: install required packages
+#   apt:
+#     name:
+#       - ruby-dev
+#       - make
+#       - libfilesys-diskspace-perl
+#       - libmoo-perl
+#       # - pp-ops-servicebuilder
+#       # - pp-ops-riemann-client-perl
+#       - libclass-accessor-perl
+#     state: present
+
+# # - include_tasks: install_gems.yml
+# - name: copy proxy script
+#   template:
+#     src: var/local/scripts/install_toolset_with_nm5_proxy.sh
+#     dest: /var/local/scripts/install_riemann_toolset.sh
+#     owner: root
+#     group: root
+#     mode: "0755"
+
+# - name: run proxy script
+#   command: bash /var/local/scripts/install_riemann_toolset.sh
+
+# - name: copy monitoring scripts
+#   template:
+#     src: "{{ item }}"
+#     dest: /{{ item }}
+#     owner: root
+#     group: root
+#     mode: "0755"
+#   with_items:
+#     # - usr/lib/riemann/plugins/check_disk.pl
+#     - usr/lib/riemann/plugins/check_uptime.pl
+#     - usr/lib/riemann/daemon/riemann-health.sh
+#     # - usr/lib/riemann/daemon/riemann-disk-monitoring.sh
+#     - usr/lib/riemann/daemon/riemann-host-uptime.sh
+#   register: monitoring_scripts
+
+# - name: run monitoring scripts
+#   command: "{{ item }}"
+#   with_items:
+#     - /usr/share/pp-ops-servicebuilder/servicebuilder.pl -N riemann-health  -R /usr/lib/riemann/daemon/riemann-health.sh
+#     # - /usr/share/pp-ops-servicebuilder/servicebuilder.pl -N riemann-disk-monitoring  -R /usr/lib/riemann/daemon/riemann-disk-monitoring.sh
+#     - /usr/share/pp-ops-servicebuilder/servicebuilder.pl -N riemann-host-uptime -R /usr/lib/riemann/daemon/riemann-host-uptime.sh
+
+# - include_tasks: disk_v2/main.yml
+
+- include_tasks: collectd/main.yml
+
+# - name: reload daemon upon changes
+#   command: "{{ item }}"
+#   with_items:
+#     - svc -h /etc/sv/riemann-health
+#     - svc -h /etc/sv/riemann-disk-monitoring
+#     - svc -h /etc/sv/riemann-host-uptime
+#   when: monitoring_scripts.changed

@@ -1,0 +1,54 @@
+---
+- hosts: "{{ host }}"
+  user: azureuser
+  become: yes
+  environment:
+    http_proxy: "http://10.56.23.56:8888"
+    https_proxy: "http://10.56.23.56:8888"
+  roles:
+    - pdns
+
+- hosts: "{{ host }}"
+  user: azureuser
+  become: yes
+  # environment:
+  #   http_proxy: "http://tinyproxy:8888"
+  #   https_proxy: "http://tinyproxy:8888"
+  roles:
+    - pkgs
+
+- hosts: "{{ host }}"
+  user: azureuser
+  become: yes
+  environment:
+    http_proxy: "http://tinyproxy:8888"
+    https_proxy: "http://tinyproxy:8888"
+  roles:
+    - salt-minion
+
+# - hosts: nodes
+#   user: azureuser
+#   become: yes
+#   environment:
+#     http_proxy: "http://tinyproxy:8888"
+#     https_proxy: "http://tinyproxy:8888"
+#   roles:
+#     - monitoring
+
+- hosts: "{{ host }}"
+  user: azureuser
+  become: yes
+  environment:
+    http_proxy: "http://tinyproxy:8888"
+    https_proxy: "http://tinyproxy:8888"
+  roles:
+    - chrony-client
+
+- hosts: "{{ host }}"
+  user: azureuser
+  become: yes
+  environment:
+    http_proxy: "http://10.56.23.56:8888"
+    https_proxy: "http://10.56.23.56:8888"
+  roles:
+    - restart-pdns

@@ -1,0 +1,21 @@
+---
+- name: run users
+  shell: salt-call state.sls users.azure ; echo 0
+  async: 250
+  poll: 10
+- name: run salt userexception
+  shell: salt-call state.sls users.userexception ; echo 0
+  async: 100
+  poll: 10
+- name: run salt gruhabhanga
+  shell: salt-call state.sls users.gruhabhanga ; echo 0
+  async: 100
+  poll: 10
+- name: run salt ssh
+  shell: salt-call state.sls ssh ; echo 0
+  async: 100
+  poll: 10
+- name: run salt security
+  shell: salt-call state.sls security ; echo 0
+  async: 100
+  poll: 10

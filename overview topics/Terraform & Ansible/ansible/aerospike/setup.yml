@@ -1,0 +1,10 @@
+---
+- name: Install Aerospike
+  hosts: "{{ host }}"
+  gather_facts: yes
+  become: yes
+  environment:
+    http_proxy: "http://tinyproxy:8888"
+    https_proxy: "http://tinyproxy:8888"
+  roles:
+   - ../aerospike

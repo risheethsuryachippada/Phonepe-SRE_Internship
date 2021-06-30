@@ -1,0 +1,51 @@
+---
+# ther_hosts means the stratum value of all the hosts in the env other than chrony server hosts
+# server_hosts means the stratum value of only the chrony server hosts
+# server_hostname means the prefix host name of the chrony server hosts till the number
+# ex: if a chrony server name is prd-chrony001, put server_hostname_prefix as prd-chrony
+
+# Any new env can be added similarly.
+bk1:
+  other_hosts: 4
+  server_hosts: 3
+  server_hostname_prefix: dmz-chrony
+nm5:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+nb1:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+nb6:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+nb7:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+nb8:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+nm8:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+bk2:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+rel:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+az6:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony
+az5:
+  other_hosts: 3
+  server_hosts: 2
+  server_hostname_prefix: dmz-chrony

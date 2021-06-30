@@ -1,0 +1,50 @@
+---
+- name: Update apt-get repo and cache
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Install dns pre-requisites
+  apt:
+    name:
+      [
+        "libyaml-syck-perl",
+        "libwww-perl",
+        "daemontools",
+        "daemontools-run",
+        "make",
+        "ucspi-tcp",
+        "gnupg",
+      ]
+    state: present
+
+- name: Copy the repo file
+  template:
+    src: pdns.list.j2
+    dest: /etc/apt/sources.list.d/pdns.list
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Copy the preferences file
+  copy:
+    src: pdns
+    dest: /etc/apt/preferences.d/pdns
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Add pdns apt key
+  apt_key:
+    url: "{{ pdns_apt_key }}"
+    state: present
+
+- name: Update apt-get repo and cache
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Install pdns
+  apt:
+    name: "pdns-recursor"
+    state: present

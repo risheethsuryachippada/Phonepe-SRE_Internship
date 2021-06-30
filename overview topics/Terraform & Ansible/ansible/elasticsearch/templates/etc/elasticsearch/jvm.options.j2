@@ -1,0 +1,55 @@
+## JVM configuration
+
+{%- set ES_HEAP_SIZE_RETURN = (0.51 * ansible_memtotal_mb)|round|int  %}
+
+{% if ES_HEAP_SIZE_RETURN > 31744 %}
+ {% set ES_HEAP_SIZE = '31744m' %}
+  {% else %}
+ {% set ES_HEAP_SIZE = [ ES_HEAP_SIZE_RETURN,'m']|join %}
+{% endif %}
+
+
+-Xms{{ES_HEAP_SIZE}}
+-Xmx{{ES_HEAP_SIZE}}
+
+
+#-XX:+UseConcMarkSweepGC
+#-XX:+UseG1GC
+{% if garbage_collector == 'G1GC' %}
+ {% set GARBAGE_COLLECTOR = 'UseG1GC' %}
+  {% else %}
+ {% set GARBAGE_COLLECTOR = 'UseConcMarkSweepGC' %}
+{% endif %}
+
+-XX:+{{ GARBAGE_COLLECTOR }}
+-XX:CMSInitiatingOccupancyFraction=65
+-XX:+UseCMSInitiatingOccupancyOnly
+
+
+-XX:+DisableExplicitGC
+
+-XX:+AlwaysPreTouch
+
+
+-server
+
+-Xss1m
+
+-Djava.awt.headless=true
+
+-Dfile.encoding=UTF-8
+
+-Djna.nosys=true
+
+-Djdk.io.permissionsUseCanonicalPath=true
+
+-Dio.netty.noUnsafe=true
+-Dio.netty.noKeySetOptimization=true
+-Dio.netty.recycler.maxCapacityPerThread=0
+
+-Dlog4j.shutdownHookEnabled=false
+-Dlog4j2.disable.jmx=true
+-Dlog4j.skipJansi=true
+
+
+-XX:+HeapDumpOnOutOfMemoryError

@@ -1,0 +1,9 @@
+{
+    "ansible_python_interpreter"    : "/usr/bin/python3",
+    "ansible_ssh_private_key_file"  : "~/ssh_keys/id_rsa_azure",
+    "ansible_ssh_common_args"       : "'-o StrictHostKeyChecking=no'",
+    "ansible_user"                  : "azureuser",
+    "host"                          : "tag_service_rmq:&tag_hostgrp_grp1",
+    "dns_hosts"                     : ["10.3.1.10", "10.3.1.11"],
+    "env"                           : "az6"
+}

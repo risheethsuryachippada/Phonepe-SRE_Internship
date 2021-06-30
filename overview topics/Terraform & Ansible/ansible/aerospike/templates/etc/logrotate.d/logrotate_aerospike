@@ -1,0 +1,13 @@
+/var/log/aerospike/aerospike.log {
+    daily
+    rotate 15
+    dateext
+    copytruncate
+    compress
+    olddir /var/log/aerospike
+    missingok
+    notifempty
+    postrotate
+        (kill -HUP `pgrep asd`) > /dev/null 2>&1 || true
+    endscript
+}

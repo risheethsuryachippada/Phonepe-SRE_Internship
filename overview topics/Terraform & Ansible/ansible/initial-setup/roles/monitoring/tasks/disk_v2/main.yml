@@ -1,0 +1,45 @@
+---
+  
+- name: disk_v2 | create riemann plugins and daemon dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+  with_items:
+    - /usr/lib/riemann/plugins
+    - /usr/lib/riemann/daemon
+    - /var/local/scripts
+
+- name: disk_v2 | run daemontools
+  command: "{{ item }}"
+  with_items:
+    - semodule -X 100 -r daemontools
+    - systemctl enable daemontools
+  when: ansible_facts['distribution'] == "CentOS"
+
+- name: disk_v2 | copy monitoring scripts
+  template:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    owner: root
+    group: root
+    mode: "0755"
+  with_items:
+    - usr/lib/riemann/plugins/check_disk_v2.pl
+    - usr/lib/riemann/daemon/riemann-diskv2-monitoring.sh
+  register: monitoring_scripts
+
+- name: disk_v2 | run monitoring scripts
+  command: "{{ item }}"
+  with_items:
+    - /usr/share/pp-ops-servicebuilder/servicebuilder.pl -N riemann-diskv2-monitoring  -R /usr/lib/riemann/daemon/riemann-diskv2-monitoring.sh
+
+- name: disk_v2 | reload daemon upon changes
+  command: "{{ item }}"
+  with_items:
+    - svc -h /etc/sv/riemann-diskv2-monitoring
+  when: monitoring_scripts.changed
+
+- name: disk_v2 | remove riemann-disk-monitoring
+  command: rm -rf /etc/sv/riemann-disk-monitoring
+

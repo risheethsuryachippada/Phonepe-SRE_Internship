@@ -1,0 +1,80 @@
+- name: Get RabbitMQ cluster data
+  command: rabbitmqctl cluster_status --formatter json
+  register: rabbitmq_cluster_status
+  ignore_errors: yes
+ 
+- name: Trigger handlers for failed nodes 
+  command: /bin/true
+  changed_when: "'Error' in rabbitmq_cluster_status.stderr"
+  notify: 
+    - failed node restart
+    - change cluster_size
+
+- name: Convert rabbitmq_cluster_running_nodes fact in json
+  set_fact:
+   cluster_status_json: "{{ rabbitmq_cluster_status.stdout | from_json }}"
+  when: "'Error' not in rabbitmq_cluster_status.stderr"
+
+- name:  No of active nodes in cluster (per node) 
+  set_fact:
+    nodes_in_cluster: "{{ cluster_status_json['running_nodes'] | length  }}"
+  when: "'Error' not in rabbitmq_cluster_status.stderr"
+
+- meta: flush_handlers
+
+# - name: asdasd
+#   set_fact:
+#     sorted_nodes : "{{ sorted_nodes|default([]) + [ { 'host' : item , 'size' : hostvars[item].cluster_status_json }] }}"
+#   with_items: " {{ groups[nodes] }}"
+#   run_once: true
+
+# - name: Show the name of master nodeprint
+#   debug:
+#     msg: "{{ item }}-----{{ hostvars[item] }}"
+#   with_items: "{{ play_hosts }}"
+#   run_once: true
+- name: Create a common dictionary
+  set_fact:
+    sorted_nodes : "{{ sorted_nodes|default({}) | combine({ item  : hostvars[item].nodes_in_cluster }) }}"
+  with_items: "{{ play_hosts }}"
+  run_once: true
+
+- name: Sort dict to find node with highest no of nodes in cluster
+  set_fact:
+    sorted_nodes : "{{ sorted_nodes | dictsort(false, 'value', true) }}"
+  run_once: true
+
+# - name: Show the name of master nodeprint
+#   debug:
+#     msg: "{{ sorted_nodes }} {{ hostvars[sorted_nodes[0][0]].cluster_status_json['running_nodes'] }}"
+
+- name: Task block to clear new nodes before joining to cluster
+  block:
+    - name: Stop rabbitmq app
+      command: rabbitmqctl stop_app
+
+    - name: Reset rabbitmq before entering cluster
+      command: rabbitmqctl force_reset
+
+    - name: Force forget cluster node on 'master'
+      command: "rabbitmqctl forget_cluster_node {{ rabbitmq_node }}"
+      delegate_to: "{{ sorted_nodes[0][0] }}"
+      when: rabbitmq_node in hostvars[sorted_nodes[0][0]].cluster_status_json['disk_nodes']
+
+    - name: Waiting for a while to nodes stabilize themselves
+      wait_for:
+        timeout: 20
+
+    - name: Join rabbitmq cluster
+      command: rabbitmqctl join_cluster "rabbit@{{ hostvars[sorted_nodes[0][0]]['ansible_facts']['nodename'] }}"
+      register: cluster_joined
+      retries: 3
+      delay: 15
+
+    - name: Start rabbitmq app
+      command: rabbitmqctl start_app
+  vars:
+    rabbitmq_node: "rabbit@{{ ansible_nodename }}"
+  when:
+    - ansible_nodename != hostvars[sorted_nodes[0][0]]['ansible_facts']['nodename']
+    - (rabbitmq_node not in hostvars[sorted_nodes[0][0]].cluster_status_json['running_nodes'])

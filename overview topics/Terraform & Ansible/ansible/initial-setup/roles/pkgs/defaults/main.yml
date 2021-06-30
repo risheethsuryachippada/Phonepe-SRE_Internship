@@ -1,0 +1,4 @@
+---
+# defaults file for pkgs
+mirror_link: cor-mirror101.phonepe.nb1
+key_path: "pkgs/KEY.gpg"

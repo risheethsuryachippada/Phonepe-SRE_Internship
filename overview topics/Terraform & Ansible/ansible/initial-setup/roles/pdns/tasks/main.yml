@@ -1,0 +1,6 @@
+---
+# tasks file for pdns
+- import_tasks: install.yml
+- import_tasks: config.yml
+- import_tasks: postfix.yml
+#postfix not required for ubuntu 16

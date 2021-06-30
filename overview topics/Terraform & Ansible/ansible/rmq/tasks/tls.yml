@@ -1,0 +1,36 @@
+---
+- name: Make sure destination dir exists for certs zipfile
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - { path: "{{ rmqca_dest }}" }
+    - { path: "{{ server_cert_dest }}"}
+
+- name: make sure TLS/SSL certificates exists
+  ansible.builtin.set_fact:
+    my_secrets: "{{ lookup('community.hashi_vault.hashi_vault', 'kv/data/rmq-certs', auth_method='token') }}"
+- copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    owner: rabbitmq
+    group: rabbitmq
+    mode: 0644
+    decrypt: yes
+  no_log: True
+  with_items:
+    - { content: "{{ my_secrets['cacert.pem'] }}", dest: "{{ cacertfile_dest }}" }
+    - { content: "{{ my_secrets['servercert.pem'] }}", dest: "{{ certfile_dest }}" }
+    - { content: "{{ my_secrets['serverkey.pem '] }}", dest: "{{ keyfile_dest }}" }
+
+
+    #- ansible.builtin.debug:
+    #    msg: "Secret '{{ item.key }}' has value '{{ item.value }}'"
+    #  loop: "{{ my_secrets | dict2items }}"
+
+
+    # to make it work with env variables do: 
+    # export VAULT_TOKEN=<token>
+    # export VAULT_ADDR=http://domain:8200
+

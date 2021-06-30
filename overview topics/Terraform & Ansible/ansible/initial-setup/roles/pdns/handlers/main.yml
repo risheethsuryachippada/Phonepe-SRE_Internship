@@ -1,0 +1,7 @@
+---
+# handlers file for pdns
+- name: block_for_new_nodes
+  include_tasks: ../tasks/pdns.yml
+  # debug: 
+  #   msg: "hiiiiii"
+   

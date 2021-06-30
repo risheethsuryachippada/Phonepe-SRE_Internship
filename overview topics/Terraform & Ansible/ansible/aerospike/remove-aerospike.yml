@@ -1,0 +1,32 @@
+---
+- name: Uninstalling Aerospike
+  hosts: nodes
+  gather_facts: false
+  become: yes
+  tasks:    
+  - name: Get service facts
+    service_facts:
+
+  - name: Import configuration properties
+    include_vars:
+      dir: vars
+  
+  - name: Stop Aerospike service
+    service: 
+      name: aerospike
+      state: stopped
+
+  - name: Uninstall Aerospike Server
+    apt:
+     name: 
+        - aerospike-server-community
+        - aerospike-server-enterprise
+     state: absent
+
+  - name: Uninstall Aerospike Tools   
+    apt:
+     name: aerospike-tools
+     state: absent
+
+  - debug: 
+      msg: "Aerospike uninstall complete"

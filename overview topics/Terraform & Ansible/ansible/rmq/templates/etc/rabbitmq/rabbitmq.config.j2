@@ -1,0 +1,18 @@
+[
+ {ssl, [{versions, ['tlsv1.2', 'tlsv1.1', tlsv1]}]},
+ {rabbit, [
+           {ssl_listeners, [{{ ssl_port }}]},
+           {tcp_listeners, []},
+           {ssl_options, [{cacertfile,"{{ cacertfile_dest }}"},
+                        {certfile,  "{{ certfile_dest }}"},
+                        {keyfile,   "{{ keyfile_dest }}"},
+                        {versions, ['tlsv1.2', 'tlsv1.1', tlsv1]}]},
+            {cluster_nodes, {[{% for host in play_hosts -%}
+                        "rabbit@{{ hostvars[host]['ansible_facts']['nodename'] }}"
+                        {%- if not loop.last %}, {% endif -%}
+                        {%- endfor %}], disc}},
+            {auth_mechanisms,['EXTERNAL','PLAIN']},
+            {auth_backends, [rabbit_auth_backend_internal, rabbit_auth_backend_external]},
+            {vm_memory_high_watermark, {{ vm_memory_high_watermark }}}
+]}
+].

@@ -1,0 +1,30 @@
+# Installation configuration
+# ===================================
+
+# Whether to use enterprise
+# Set to false by default so will run without features.conf
+enterprise: true
+
+# Whether to enable encryption at rest
+encryption_at_rest: false
+
+# Whether to use TLS
+tls_enabled: true
+
+# Monitoring
+monitoring_enabled: true
+
+# Distribution
+aerospike_distribution: "ubuntu20" 
+# You can use el6 or 7 with Amazon 2 Linux AMI found below. 
+# If you want to use a debian or ubuntu or install, you will need to change the ami_locator_string below
+# !!! Newsflash - looks like el7 installs won't auto start as /var/log/aerospike doesn't get created, so stick to el6 while you see this message
+
+# Version number
+aerospike_version: "4.9.0.27" 
+# Use full version number e.g. 4.8.0.8 'latest' is also recognized.
+lvextend_percentage : 100
+# add_disk_name: /dev/sdc
+xdr_log_directory: "/var/lib/aerospike/xdr"
+cluster_name: cluster3
+nodes: "{{ host }}"

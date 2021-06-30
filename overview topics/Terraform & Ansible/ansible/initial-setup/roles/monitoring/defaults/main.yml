@@ -1,0 +1,6 @@
+---
+# defaults file for monitoring
+
+influxdb_port: "25826"
+
+nginx_host: false

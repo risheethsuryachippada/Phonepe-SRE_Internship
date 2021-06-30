@@ -1,0 +1,3 @@
+---
+# defaults file for salt-minion
+salt_version: "{{ 3003 if ansible_distribution_version ==  '20.04' else 3001 }}"

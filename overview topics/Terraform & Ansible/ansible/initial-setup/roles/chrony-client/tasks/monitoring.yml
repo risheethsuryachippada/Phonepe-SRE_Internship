@@ -1,0 +1,38 @@
+---
+- name: Install prerequisites
+  apt:
+    name: ['pp-ops-servicebuilder', 
+      'pp-ops-riemann-client-perl', 'libyaml-libyaml-perl']
+    state: present
+
+- name: Create chrony script directory
+  file:
+    path: /usr/lib/riemann/plugins
+    state: directory
+    mode: '0755'
+
+- name: Create chrony plugins directory
+  file:
+    path: /usr/lib/riemann/daemon
+    state: directory
+    mode: '0755'
+
+- name: Chrony monitroing | copy chrony_check
+  become: yes
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+    mode: 755
+  with_items:
+    - usr/lib/riemann/plugins/chrony_check.pl
+    - usr/lib/riemann/daemon/chrony_check.sh
+    - usr/lib/riemann/plugins/chrony_conf.yaml
+
+
+- name: Run servicebuilder for ChronyCheck
+  become: yes
+  command: /usr/share/pp-ops-servicebuilder/servicebuilder.pl -N ChronyCheck  -R /usr/lib/riemann/daemon/chrony_check.sh
+
+
+- name: Reload ChronyCheck
+  command: svc -h /etc/sv/ChronyCheck

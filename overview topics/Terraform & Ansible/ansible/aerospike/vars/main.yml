@@ -1,0 +1,9 @@
+---
+aerospike_download_url:
+  https://www.aerospike.com/download/server/latest/artifact/ubuntu{{ansible_facts['distribution_major_version']}}
+aerospike_package_name:
+  aerospike-server-community-{{ aerospike_version }}-{{ aerospike_distro_download }}
+aerospike_source_directory:
+  /var/lib/aerospike
+aerospike_ssl_directory:
+  /etc/aerospike/ssl

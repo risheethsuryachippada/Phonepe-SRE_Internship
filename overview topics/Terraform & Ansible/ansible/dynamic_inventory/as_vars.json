@@ -1,0 +1,29 @@
+{
+    "ansible_python_interpreter"    : "/usr/bin/python3",
+    "ansible_ssh_private_key_file"  : "~/ssh_keys/id_rsa_azure",
+    "ansible_ssh_common_args"       : "'-o StrictHostKeyChecking=no'",
+    "ansible_user"                  : "azureuser",
+    "host"                          : "tag_service_aerospike:&tag_hostgrp_grp1",
+    "cluster_name"                  : "cluster1",
+    "lvextend_percentage"           : "100",  
+    "aerospike_distribution"        : "ubuntu20.04",
+    "aerospike_version"             : "4.9.0.27",
+    "is_data_disk_present"          : "true",
+    "xdr_log_directory"             : "/var/lib/aerospike/xdr",
+    "namespaces"                    : [{
+                                            "data1" : 
+                                                { 
+                                                    "high_water_disk_pct" : 61,
+                                                    "high_water_memory_pct" : 71,
+                                                    "stop_writes_pct" : 91
+                                                }
+                                        },
+                                        {
+                                            "data2" : 
+                                                { 
+                                                    "high_water_disk_pct" : 62,
+                                                    "high_water_memory_pct" : 72,
+                                                    "stop_writes_pct" : 92
+                                                }
+                                        }]
+}

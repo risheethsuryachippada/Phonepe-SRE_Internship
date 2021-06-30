@@ -1,0 +1,51 @@
+## rabbitmq
+rabbitmq_version: "3.8.9"
+
+# erlang
+erlang_version: "23.*"
+
+# cluster
+rabbitmq_create_cluster: yes
+rabbitmq_erlang_cookie: "LOAYHDRTTMMWDTCRPZSZ"
+
+# TLS/SSL support
+enable_tls: true
+
+rmqca_dest: "/etc/ssl/certs/rmqopenssl/rmqca/"
+server_cert_dest: "/etc/ssl/certs/rmqopenssl/server/"
+
+cacertfile_dest: "{{ rmqca_dest }}cacert.pem"
+
+certfile_dest: "{{ server_cert_dest }}cert.pem"
+
+keyfile_dest: "{{ server_cert_dest }}key.pem"
+
+# plugins
+rabbitmq_plugins:
+ - rabbitmq_amqp1_0
+ - rabbitmq_sharding
+ - rabbitmq_shovel
+ - rabbitmq_shovel_management
+ - rabbitmq_delayed_message_exchange
+ - rabbitmq_management
+
+# Configs
+vm_memory_high_watermark: 0.8
+
+#Disk mount
+#add_disk_name: /dev/sdc
+
+# Admin User
+auser: "admin"
+apass: "admin"
+
+#ports
+ssl_port: 5671
+# Monitoring User
+muser: "monitoring"
+mpass: "monitoring"
+
+lvextend_percentage: 100
+
+nodes: "{{ host }}"
+locale_lc_all: "en_US.UTF-8"
