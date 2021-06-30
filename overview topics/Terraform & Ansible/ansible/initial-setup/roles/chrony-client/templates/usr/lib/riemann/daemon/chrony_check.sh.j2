@@ -1,8 +1,0 @@
-#! /bin/bash
-
-exec 2>&1
-sleep 60
-echo "Starting Chrony monitoring process"
-
-exec perl /usr/lib/riemann/plugins/chrony_check.pl -r {{riemann_host}} \
- -c /usr/lib/riemann/plugins/chrony_conf.yaml

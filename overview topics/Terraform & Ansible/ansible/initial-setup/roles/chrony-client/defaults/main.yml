@@ -1,5 +1,0 @@
----
-timezone: "Asia/Kolkata"
-chrony_server_ips:
-  - 10.3.1.26
-  - 10.3.1.27

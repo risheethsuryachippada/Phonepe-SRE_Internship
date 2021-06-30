@@ -1,6 +1,0 @@
----
-- name: Remove unattended-upgrades
-  apt:
-    name: unattended-upgrades
-    state: absent 
-    purge: yes

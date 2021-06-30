@@ -1,9 +1,0 @@
----
-- name: Ensure that default vhost contains the HA policy
-  rabbitmq_policy:
-    name: "ha-all"
-    pattern: .*
-    tags:
-      ha-mode: all
-      ha-sync-mode: automatic
-    state: present

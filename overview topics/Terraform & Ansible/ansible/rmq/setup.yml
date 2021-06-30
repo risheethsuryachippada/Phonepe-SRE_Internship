@@ -1,9 +1,0 @@
----
-- name: Install RMQ
-  hosts: "{{ host }}"
-  become: yes
-  environment:
-    http_proxy: "http://tinyproxy:8888"
-    https_proxy: "http://tinyproxy:8888"
-  roles:
-    - ../rmq

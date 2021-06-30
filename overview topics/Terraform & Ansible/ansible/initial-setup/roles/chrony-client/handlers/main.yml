@@ -1,5 +1,0 @@
-- name: Enable chrony service
-  service: 
-    name: chrony
-    enabled: yes
-    state: restarted

@@ -1,5 +1,0 @@
----
-# tasks file for pkgs
-- import_tasks: mirror.yml
-- import_tasks: install.yml
-- import_tasks: cleanup.yml
